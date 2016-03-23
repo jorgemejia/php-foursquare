@@ -51,6 +51,8 @@ class FoursquareApi {
 	private $AuthToken;
 	/** @var String $ClientLanguage */
 	private $ClientLanguage;
+	/** @var String $SelfUrl The url for obtaining user basic information */
+	private $SelfUrl = "https://api.foursquare.com/v2/users/self";
     /** @var String[] $ResponseHeaders */
     public $ResponseHeaders = array();
     /** @var String last url sent */
@@ -339,5 +341,20 @@ class FoursquareApi {
 		else {
 			return 0;
 		}
+	}
+	/**
+	*GetUserInfo
+	*Request for user information: friends,birthday,tips,homeCity,bio,photos,checkins,requests,lists
+	*
+	*/
+	public function GetUserInfo(){
+		$params = array(
+			"oauth_token"=>$this->AuthToken,
+			"v"=>DEFAULT_VERSION			
+		);
+		$result = $this->GET($this->SelfUrl, $params);
+		$json = json_decode($result);
+		return $json;
+	
 	}
 }
